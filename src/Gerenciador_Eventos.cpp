@@ -1,25 +1,29 @@
 #include "Gerenciador_Eventos.h"
 #include "Gerenciador_Grafico.h"
 
-ger::Gerenciador_Eventos::Gerenciador_Eventos(Gerenciador_Grafico* gG)
-    : gerGrafico(gG)
+ger::Gerenciador_Eventos::Gerenciador_Eventos(Gerenciador_Grafico* gG, pers::Jogador* jog)
+    : gerGrafico(gG), jogador(jog)
 {
 }
 
 ger::Gerenciador_Eventos::~Gerenciador_Eventos() {
     gerGrafico = nullptr;
+    jogador = nullptr;
 }
 
 void ger::Gerenciador_Eventos::gerenciar() {
     sf::Event evento;
     while (gerGrafico->pesquisaEventoJanela(evento)) {
+        // Fechar a Janela
         if (evento.type == sf::Event::Closed) {
             gerGrafico->fechaJanela();
         }
+
+        // Redimensionar a Janela
         if (evento.type == sf::Event::Resized) {
             if (gerGrafico) {
-                gerGrafico->setTamanhoVista(sf::Vector2f(static_cast<float>(evento.size.width) / 2, static_cast<float>(evento.size.height) / 2));
-                gerGrafico->setCentroVista(sf::Vector2f(static_cast<float>(evento.size.width) / 2, static_cast<float>(evento.size.height) / 2));
+                float aspect_ratio = static_cast<float>(evento.size.width) / evento.size.height;
+                gerGrafico->redimensionar(aspect_ratio);
             }
         }
     }

@@ -38,6 +38,9 @@ public:
     Ente();
     Ente(sf::Vector2f posicao, sf::Vector2f tamanho, ID id = vazio);
     virtual ~Ente();
+
+    virtual void executar() = 0;
+
     ID getID();
     void setID(ID idPar);
 

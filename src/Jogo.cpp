@@ -4,14 +4,15 @@
 #include "Gerenciador_Eventos.h"
 #include "Personagem.h"
 #include "Jogador.h"
+#include <sstream>
 //...
 
 Jogo::Jogo() 
 : gerGrafico(ger::Gerenciador_Grafico::getInstancia()){
     srand(time(NULL));
-    gerEventos = new ger::Gerenciador_Eventos(gerGrafico);
+    jogador = new pers::Jogador (sf::Vector2f(HEIGHT/2.0, WIDTH/2.0),sf::Vector2f(20.f, 20.f), vazio);
+    gerEventos = new ger::Gerenciador_Eventos(gerGrafico, jogador);
    // e = new Ente(gerGrafico);
-    jogador = new pers::Jogador (sf::Vector2f(20.f, 20.f),sf::Vector2f(20.f, 20.f), vazio);
 
     executar();
 }
@@ -47,16 +48,42 @@ void Jogo::executar(){
         jogador->setpGG(gerGrafico);
         jogador->setTarget();
 
+        /*
+        DEBUG:
+        sf::Font font;
+        std::string str = PROJECT_ROOT;
+        str += "/assets/fonts/Arial.ttf";
+        font.loadFromFile(str);
+        sf::Text text;
+        text.setFont(font);
+        text.setCharacterSize(50);
+        text.setFillColor(sf::Color::Black);
+        text.setPosition(0.f, 0.f);
+        */
+
         // Loop principal do jogo
         while (gerGrafico->getJanelaAberta()) {
             // Gerencia os eventos
+            //gerGrafico->setVista(jogador->getPosition().x);
             gerEventos->gerenciar();
 
             // Limpar a janela
             gerGrafico->limpaJanela();
             moveEntes();
+            
+            // Centraliza o campo de visão no jogador
+            //gerGrafico->centralizarVista(static_cast<Ente*>(jogador));
+            
             // Desenhar o jogador (ente)
             gerGrafico->desenharEnte(static_cast<Ente*>(jogador));
+
+            /*
+            DEBUG:
+            std::ostringstream oss;
+            oss << "J: (" << (int) jogador->getPosition().x << ", " << (int) jogador->getPosition().y << ")";
+            text.setString(oss.str());
+            gerGrafico->getJanela()->draw(text);
+            */
 
             // Exibir a janela
             gerGrafico->getJanela()->display();

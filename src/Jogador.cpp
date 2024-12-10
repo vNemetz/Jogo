@@ -22,8 +22,8 @@ bool pers::Jogador::getVivo(){
     return vivo;
 }
 void pers::Jogador::mover(sf::Keyboard::Key key){
-    if(key == sf::Keyboard::A){setPosition (sf::Vector2f(getPosition().x -1.f, getPosition().y));}
-    else if(key == sf::Keyboard::D){setPosition (sf::Vector2f(getPosition().x + 1.f, getPosition().y));}
-    else if(key == sf::Keyboard::W){setPosition (sf::Vector2f(getPosition().x, getPosition().y-1.f));}
-    else if(key == sf::Keyboard::S){setPosition(sf::Vector2f(getPosition().x, getPosition().y+1.f));}
+    if(key == sf::Keyboard::A && getPosition().x > 0){setPosition (sf::Vector2f(getPosition().x -1.f, getPosition().y));}
+    else if(key == sf::Keyboard::D && getPosition().x < pGG->getTamanhoJanela().x){setPosition (sf::Vector2f(getPosition().x + 1.f, getPosition().y));}
+    else if(key == sf::Keyboard::W && getPosition().y > 0){setPosition (sf::Vector2f(getPosition().x, getPosition().y-1.f));}
+    else if(key == sf::Keyboard::S && getPosition().y < pGG->getTamanhoJanela().y){setPosition(sf::Vector2f(getPosition().x, getPosition().y+1.f));}
 }

@@ -21,7 +21,8 @@ Ente::~Ente(){
     pSprite = NULL;
     pTextura = NULL;
     pGG = NULL;
-}
+}  
+
 
 ger::Gerenciador_Grafico* Ente::pGG(NULL); //atributo static
 
